@@ -20,13 +20,14 @@ import cv2
 
 
 
-#Déclaration des UUID 
-adresse = "46270FD2-1135-FC98-4997-422977E13E19"
+#UUIDs
+address = "46270FD2-1135-FC98-4997-422977E13E19" 
 MESURES_UUID = "97918cb5-8f6d-4247-9296-6cead3928adf"
 
-#option de sélection de la caractéristique à afficher (v:voltage, m:masse, f:force, p:pression)
-selection = "v" 
-#Surface d'un capteur (m^2)
+#Plotting option (v:voltage, m:mass, f:force, p:pressure)
+selection = "p" 
+
+#Surface of a sensor(m^2)
 surface = 0.0002585398163
 if selection == "v":
   VALEURMAX = 3160
@@ -45,16 +46,16 @@ def masse_interpolee (z):
   resultat = -17.3429*z**9 + 221.7042*z**8 + -1077.4485*z**7 + 2402.209*z**6 + -2164.828*z**5 + 42.0744*z**4 +  224.1687*z**3 + 1440.927*z**2 + -2179.7278*z + 2613.0283 
   return  resultat
 # lecture de l'image de référence pour le contour
-imageRef = cv2.imread('imageOriginale.jpg')
+imageRef = cv2.imread('OpenCVImages/OriginalImage.jpg')
 #déclaration de l'image background pour l'affichage
 if selection == "v":
-  imageDestination = cv2.imread('VoltageCanvas.jpg')
+  imageDestination = cv2.imread('OpenCVImages/VoltageCanvas.jpg')
 elif selection == "m":
-  imageDestination = cv2.imread('MasseCanvas.jpg')
+  imageDestination = cv2.imread('OpenCVImages/MassCanvas.jpg')
 elif selection == "f":
-    imageDestination = cv2.imread('ForceCanvas.jpg')
+    imageDestination = cv2.imread('OpenCVImages/ForceCanvas.jpg')
 elif selection == "p":
-        imageDestination = cv2.imread('PressionCanvas.jpg')
+        imageDestination = cv2.imread('OpenCVImages/PressureCanvas.jpg')
 #acquisition des contours
 imgray = cv2.cvtColor(imageRef, cv2.COLOR_BGR2GRAY)
 ret, thresh = cv2.threshold(imgray, 127, 255, 0)
@@ -108,7 +109,7 @@ def updateMap(zones):
 
 #Boucle de lecture des données 
 async def main():
-  async with BleakClient(adresse) as client:
+  async with BleakClient(address) as client:
       await client.connect()
       while True:
       #Extraction des voltages
@@ -137,7 +138,6 @@ async def main():
             zones.append(force)
           elif selection == "p":
             zones.append(pression)
-        # print(f"Z1= {zones[0]}  Z2= {zones[1]} Z3= {zones[2]} Z4= {zones[3]} Z5= {zones[4]} Z6= {zones[5]} Z7= {zones[6]} Z8= {zones[7]} Z9= {zones[8]} Z10= {zones[9]} Z11= {zones[10]} Z12= {zones[11]} Z13= {zones[12]} Z14= {zones[13]} Z15= {zones[14]} Z16= {zones[15]}")
         #appel de la fonction d'affichage
         updateMap(zones)
 asyncio.run(main())
