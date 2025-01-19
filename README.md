@@ -1,6 +1,6 @@
 # Smart Insole Project
 
-###### This project aimed to design a system capable of displaying the real-time pressure distribution under a foot. The  portable system is attached to the user's ankle and it integrates an insole that I found online. The insole contains 16 force sensors whose electrical resistance is inversely proportional to the applied pressure. By measuring the voltage of a sensor, the force can be estimated using the resistance-force curve provided by the manufacturer.
+###### This project aimed to design a system capable of displaying the real-time pressure distribution under a foot. The  portable system is attached to the user's ankle and it integrates an insole I found online. The insole contains 16 force sensors whose electrical resistance is inversely proportional to the applied pressure. By measuring the voltage of a sensor, the force can be estimated using the resistance-force curve provided by the manufacturer.
 
 ###### The 16 voltages are periodically measured using an ESP-32 and a 16:1 multiplexer. The data is then sent to the destination computer via Bluetooth BLE (see the script PressureSole_BT.ino). The system is powered by a 6V battery through the ESP-32's internal voltage regulator.
 
